@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberTube Downloader | Shahzaib Tech</title>
+    <style>
+        /* Futuristic Font */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --neon-red: #ff003c;
+            --dark-red: #8b0000;
+            --bg-color: #0a0a0a;
+            --panel-bg: #141414;
+            --text-color: #ffffff;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.9)), url('https://www.transparenttextures.com/patterns/cubes.png');
+            overflow: hidden;
+        }
+
+        /* Branding */
+        .branding {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--neon-red);
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px var(--neon-red);
+        }
+
+        /* Main Cyber Panel */
+        .container {
+            background-color: var(--panel-bg);
+            padding: 40px 30px;
+            border: 2px solid var(--neon-red);
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.2), inset 0 0 10px rgba(255, 0, 60, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container::before, .container::after {
+            content: ''; 
+            position: absolute; 
+            width: 30px; 
+            height: 30px; 
+            border: 2px solid var(--neon-red);
+        }
+        .container::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .container::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+        h1 { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 2.2rem; 
+            margin-bottom: 10px; 
+            color: #fff; 
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px var(--dark-red); 
+        }
+        
+        p { 
+            color: #aaaaaa; 
+            margin-bottom: 30px; 
+            font-size: 0.9rem; 
+        }
+
+        /* Inputs */
+        .input-group { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        
+        input[type="text"], select { 
+            width: 100%; 
+            padding: 15px; 
+            background-color: #000; 
+            border: 1px solid var(--dark-red); 
+            color: var(--neon-red); 
+            font-family: 'Share Tech Mono', monospace; 
+            font-size: 1rem; 
+            outline: none; 
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus, select:focus { 
+            border-color: var(--neon-red); 
+            box-shadow: 0 0 10px rgba(255, 0, 60, 0.5); 
+        }
+        
+        input[type="text"]::placeholder {
+            color: #555;
+        }
+
+        /* Button */
+        button { 
+            width: 100%; 
+            padding: 15px; 
+            background-color: transparent; 
+            color: var(--neon-red); 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 1.2rem; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            border: 2px solid var(--neon-red); 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+        
+        button:hover { 
+            background-color: var(--neon-red); 
+            color: #000; 
+            box-shadow: 0 0 20px var(--neon-red); 
+        }
+
+        /* Status Texts */
+        #status-box { 
+            margin-top: 20px; 
+            min-height: 50px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+        }
+        .error-text { color: #ff3333; }
+        .success-text { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
+
+        /* Background Scanlines Effect */
+        .scanlines { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); 
+            background-size: 100% 4px; 
+            pointer-events: none; 
+            z-index: 1; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+    <div class="branding">System By Shahzaib Tech</div>
+
+    <div class="container">
+        <h1>YT Extractor</h1>
+        <p>Initialize secure connection to fetch media protocols.</p>
+
+        <div class="input-group">
+            <input type="text" id="yt-url" placeholder="Paste YouTube Video Link Here..." autocomplete="off">
+            <select id="format">
+                <option value="mp4">Video - MP4 (Highest Quality)</option>
+                <option value="mp3">Audio - MP3 (Highest Quality)</option>
+            </select>
+        </div>
+
+        <button id="download-btn" onclick="processDownload()">Initialize Download</button>
+
+        <div id="status-box">
+            <span id="message"></span>
+        </div>
+    </div>
+
+    <script>
+        function processDownload() {
+            const urlInput = document.getElementById('yt-url').value.trim();
+            const formatInput = document.getElementById('format').value;
+            const messageEl = document.getElementById('message');
+            const btn = document.getElementById('download-btn');
+
+            // Reset UI State
+            messageEl.innerHTML = '';
+            messageEl.className = '';
+
+            // Check if input is empty
+            if (!urlInput) {
+                messageEl.innerHTML = "[ERROR] Link cannot be empty.";
+                messageEl.className = "error-text";
+                return;
+            }
+
+            // Simple YouTube URL Regex Validation
+            const ytRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+            if (!ytRegex.test(urlInput)) {
+                messageEl.innerHTML = "[ERROR] Invalid YouTube URL detected.";
+                messageEl.className = "error-text";
+                return;
+            }
+
+            // Cyber Button Loading State
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.innerText = "Processing Data...";
+
+            // ===============================================
+            // VERCEL SERVERLESS API PATH (Do Not Change This)
+            // ===============================================
+            const API_URL = "/api/download"; 
+            
+            // Construct final download link with parameters
+            const finalDownloadLink = `${API_URL}?url=${encodeURIComponent(urlInput)}&format=${formatInput}`;
+
+            // Show Success UI
+            messageEl.innerHTML = "[SUCCESS] Data Packet Ready! Downloading...";
+            messageEl.className = "success-text";
+
+            // Trigger actual download via backend
+            window.location.href = finalDownloadLink;
+
+            // Reset button after a few seconds
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.innerText = "Initialize Download";
+                messageEl.innerHTML = "";
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
